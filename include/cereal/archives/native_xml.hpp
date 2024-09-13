@@ -26,8 +26,8 @@
   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#ifndef CEREAL_ARCHIVES_XML_HPP_
-#define CEREAL_ARCHIVES_XML_HPP_
+#ifndef CEREAL_ARCHIVES_NATIVE_XML_HPP_
+#define CEREAL_ARCHIVES_NATIVE_XML_HPP_
 #include "cereal/cereal.hpp"
 #include "cereal/details/util.hpp"
 
@@ -45,7 +45,7 @@
 
 namespace cereal
 {
-  namespace xml_detail
+  namespace native_xml_detail
   {
     #ifndef CEREAL_XML_STRING_VALUE
     //! The default name for the root node in a cereal xml archive.
@@ -174,7 +174,7 @@ namespace cereal
         itsXML.append_node( node );
 
         // allocate root node
-        auto root = itsXML.allocate_node( rapidxml::node_element, xml_detail::CEREAL_XML_STRING );
+        auto root = itsXML.allocate_node( rapidxml::node_element, native_xml_detail::CEREAL_XML_STRING );
         itsXML.append_node( root );
         itsNodes.emplace( root );
 
@@ -269,7 +269,7 @@ namespace cereal
 
         // If the first or last character is a whitespace, add xml:space attribute
         const auto len = strValue.length();
-        if ( len > 0 && ( xml_detail::isWhitespace( strValue[0] ) || xml_detail::isWhitespace( strValue[len - 1] ) ) )
+        if ( len > 0 && ( native_xml_detail::isWhitespace( strValue[0] ) || native_xml_detail::isWhitespace( strValue[len - 1] ) ) )
         {
           itsNodes.top().node->append_attribute( itsXML.allocate_attribute( "xml:space", "preserve" ) );
         }
@@ -437,7 +437,7 @@ namespace cereal
         }
 
         // Parse the root
-        auto root = itsXML.first_node( xml_detail::CEREAL_XML_STRING );
+        auto root = itsXML.first_node( native_xml_detail::CEREAL_XML_STRING );
         if( root == nullptr )
           throw Exception("Could not detect cereal root node - likely due to empty or invalid input");
         else
@@ -1002,4 +1002,4 @@ CEREAL_REGISTER_ARCHIVE(cereal::NativeXMLInputArchive)
 // tie input and output archives together
 CEREAL_SETUP_ARCHIVE_TRAITS(cereal::NativeXMLInputArchive, cereal::NativeXMLOutputArchive)
 
-#endif // CEREAL_ARCHIVES_XML_HPP_
+#endif // CEREAL_ARCHIVES_NATIVE_XML_HPP_
