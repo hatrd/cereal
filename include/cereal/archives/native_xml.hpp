@@ -715,6 +715,10 @@ namespace cereal
       template <class T> inline
       void loadSize( T & value )
       {
+        if (isNameNotFound()) {
+          value = 0;
+          return;
+        }
         value = getNumChildren( itsNodes.top().node );
       }
 
